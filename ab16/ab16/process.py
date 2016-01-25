@@ -4,6 +4,16 @@ import json
 papers = json.loads(open("papers.json").read())
 sessions = json.loads(open("sessions.json").read())
 
+def initials(fuln):
+    #print("initials")
+    print(fuln)
+    cols = fuln.split(" ")
+    sn = cols[-1]
+    rest = cols[:-1]
+    inits = map(lambda x: x[0], rest)
+    print(sn)
+    return "%s %s" % (". ".join(inits), sn)
+
 def get_paper(id_):
     if "-" in str(id_):
         id_ = id_.split("-")[0]
@@ -27,12 +37,12 @@ def get_cell(session):
     result += "<h4>%s</h4>" % topic
     result += "<ul>\n"
     for id_ in ids:
-        print(id_)
         id_0 = id_.split("-")[0]
         paper = get_paper(id_)
         if paper:
             title = paper['title']
-            result += "<li><a href='http://ab.org.tr/ab16/ozet/%(id_0)s.html'>%(id_)s - %(title)s</a></li>\n" % {'id_0': id_0, 'id_': id_, 'title': title}
+            authors = paper['authors']
+            result += "<li><a href='http://ab.org.tr/ab16/ozet/%(id_0)s.html'>%(id_)s - %(title)s</a> <br/>(<small>%(authors)s</small>)</li>\n" % {'id_0': id_0, 'id_': id_, 'title': title, 'authors': authors}
         else:
             print(id_," not found")
 
